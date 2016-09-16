@@ -46,7 +46,7 @@ def error_print(string):
 
 def parse_config():
     """Parse the galera.cnf configuration file."""
-    config_file_path = "/etc/my.cnf.d/galera.cnf"
+    config_file_path = "/etc/mysql/conf.d/galera.cnf"
     config = ConfigParser.RawConfigParser()
     config.read(config_file_path)
     try:
