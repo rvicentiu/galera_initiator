@@ -43,7 +43,10 @@ def is_boostrap_process_running(pid_list=psutil.get_pid_list()):
     Check whether the mariadb bootstrap script is running
     Return a boolean.
     """
-    return ['/usr/bin/galera_new_cluster'] in [safe_process(pid, "cmdline") for pid in pid_list]
+    for pid in pid_list:
+	if set(['/usr/bin/galera_new_cluster']).issubset(psutil.Process(pid).cmdline()):
+             return True
+    return False
 
 
 def is_recover_process_running(pid_list=psutil.get_pid_list()):
