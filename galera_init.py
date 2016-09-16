@@ -137,8 +137,8 @@ def mysqld_status_check(attempts):
 def join_cluster():
     """Join an existing cluster."""
     # stub
-    debug_print("Joining cluster ('/etc/init.d/mysql start').")
-    proc = subprocess.Popen(["/etc/init.d/mysql", "start"],
+    debug_print("Joining cluster ('/bin/systemctl start mariadb').")
+    proc = subprocess.Popen(["/bin/systemctl", "start mariadb"],
                             stdout=subprocess.PIPE)
     debug_print(proc.communicate()[0])
     debug_print("return code is %s" % proc.returncode)
