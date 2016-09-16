@@ -67,7 +67,7 @@ def is_mysqld_process_running(pid_list=psutil.get_pid_list()):
 
 def is_galera_init_process_running(pid_list=psutil.get_pid_list()):
     """Check whether the galera_init process is running. Return a boolean."""
-    return "galera_init" in [safe_process(pid, "name") for pid in pid_list]
+    return "galera_init.py" in [safe_process(pid, "name") for pid in pid_list]
 
 
 def lock_file_exists():

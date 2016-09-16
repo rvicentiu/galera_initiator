@@ -27,6 +27,7 @@ import time
 import netsnmp
 import ConfigParser
 import os
+import setproctitle
 
 DEBUG = True
 STATUS_TIMEOUT = 1
@@ -205,6 +206,7 @@ def determine_eligibility(available_nodes):
 
 def main():
     """The main function."""
+    setproctitle.setproctitle("galera_init.py")
     local_node, nodes = parse_config()
     time.sleep(5)
     local_status = get_status(local_node)
