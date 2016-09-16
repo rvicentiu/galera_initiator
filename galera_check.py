@@ -51,8 +51,10 @@ def is_recover_process_running(pid_list=psutil.get_pid_list()):
     Check whether the mysqld process is running with the --wsrep-recover
     option. Return a boolean.
     """
-    return ['/bin/sh', '/usr/bin/mysqld_safe', '--wsrep-recover'] in \
-           [safe_process(pid, "cmdline") for pid in pid_list]
+    for pid in pid_list:
+	if set(['/usr/bin/mysqld_safe', '--wsrep-recover']).issubset(psutil.Process(pid).cmdline()):
+             return True
+    return False
 
 
 def is_mysqld_process_running(pid_list=psutil.get_pid_list()):
