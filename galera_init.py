@@ -150,8 +150,8 @@ def join_cluster():
 
 def bootstrap_cluster():
     """Bootstrap a new cluster."""
-    debug_print("Bootstrapping cluster ('/etc/init.d/mysql bootstrap').")
-    proc = subprocess.Popen(["/etc/init.d/mysql", "bootstrap"],
+    debug_print("Bootstrapping cluster ('/usr/bin/galera_new_cluster').")
+    proc = subprocess.Popen(["/usr/bin/galera_new_cluster"],
                             stdout=subprocess.PIPE)
     debug_print(proc.communicate()[0])
     debug_print("return code is %s" % proc.returncode)
