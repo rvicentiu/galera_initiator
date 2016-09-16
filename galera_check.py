@@ -33,7 +33,7 @@ def safe_process(pid, attr):
     Get process attributes safely, return attribute of psutil.Process object.
     """
     try:
-        return getattr(psutil.Process(pid), attr)
+        return getattr(psutil.Process(pid), attr)()
     except psutil.error.NoSuchProcess:
         return ""
 
