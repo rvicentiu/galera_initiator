@@ -107,8 +107,8 @@ def get_status(host):
 def get_seqno(host=None):
     """Return the seqno of a certain host."""
     if host is None:
-        proc = subprocess.Popen(["/usr/bin/galera_seqno"],
-                                stdout=subprocess.PIPE)
+        proc = subprocess.Popen([os.path.dirname(os.path.abspath(__file__)) + "/galera_check.py", "seqno"], 
+				stdout=subprocess.PIPE)
         return proc.communicate()[0]
     debug_print("Looking up database seqno of node %s." % (host))
     snmp_result = snmp(string_to_oid("galeraSeqno"), host, SEQNO_TIMEOUT)
