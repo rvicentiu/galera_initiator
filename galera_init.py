@@ -28,8 +28,10 @@ import netsnmp
 import ConfigParser
 import os
 import setproctitle
+import logging
 
 DEBUG = True
+DEBUG_STDOUT = False
 STATUS_TIMEOUT = 1
 SEQNO_TIMEOUT = 6
 
@@ -37,11 +39,14 @@ SEQNO_TIMEOUT = 6
 def debug_print(string):
     """Print a string to stdout when DEBUG is set to True."""
     if DEBUG:
-        print("DEBUG: " + string)
+        if DEBUG_STDOUT:
+            print("DEBUG: " + string)
+        logging.debug("DEBUG: " + string)
 
 
 def error_print(string):
     """Print a string to stderr."""
+    logging.error("ERROR: " + string)
     print("ERROR: " + string, file=sys.stderr)
 
 
@@ -206,6 +211,8 @@ def determine_eligibility(available_nodes):
 
 def main():
     """The main function."""
+    debug_print("Starting script...")
+    logging.basicConfig(filename='/var/log/galerainitlog', level=logging.DEBUG, format='%(asctime)s %(message)s')
     setproctitle.setproctitle("galera_init.py")
     local_node, nodes = parse_config()
     time.sleep(5)
