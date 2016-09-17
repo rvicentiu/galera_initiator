@@ -139,6 +139,14 @@ def mysqld_status_check(attempts):
             time.sleep(1)
     return returncode
 
+def force_sst():
+    """Remove the galera state file, forcing a SST."""
+    debug_print("Forcing SST, clearing grastate file.")
+    grastate_file_path = "/var/lib/mysql/grastate.dat"
+    try:
+        os.remove(grastate_file_path)
+    except OSError:
+        pass
 
 def join_cluster():
     """Join an existing cluster."""
@@ -149,8 +157,16 @@ def join_cluster():
     debug_print(proc.communicate()[0])
     debug_print("return code is %s" % proc.returncode)
     if proc.returncode != 0:
-        error_print("Joining cluster failed!")
-        return proc.returncode
+        error_print("Joining cluster failed! Trying forced SST!")
+        force_sst()
+        debug_print("Joining cluster ('/bin/systemctl start mariadb').")
+        proc = subprocess.Popen(["/bin/systemctl", "start", "mariadb"],
+                                stdout=subprocess.PIPE)
+        debug_print(proc.communicate()[0])
+        debug_print("return code is %s" % proc.returncode)
+        if proc.returncode != 0:
+            error_print("Joining cluster failed!")
+            return proc.returncode
     return mysqld_status_check(10)
 
 
