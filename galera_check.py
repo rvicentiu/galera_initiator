@@ -130,6 +130,7 @@ def seqno():
 
 def recover_seqno():
     """Print -1 when the real seqno can't be determined."""
+    recovered = False
     if not is_mysqld_process_running():
         devnull = open(os.devnull, 'w')
         proc = subprocess.Popen(['/usr/bin/galera_recovery'],
@@ -140,8 +141,10 @@ def recover_seqno():
             recovered_match = re.search(r"--wsrep_start_position=(.*)", line)
             if recovered_match:
                 print(recovered_match.group(1).split(":")[1])
-        sys.exit(0)
-    print(-1)
+                recovered = True
+                break
+    if not recovered:
+        print(-1)
     sys.exit(0)
 
 
