@@ -144,7 +144,7 @@ def join_cluster():
     """Join an existing cluster."""
     # stub
     debug_print("Joining cluster ('/bin/systemctl start mariadb').")
-    proc = subprocess.Popen(["/bin/systemctl", "start mariadb"],
+    proc = subprocess.Popen(["/bin/systemctl", "start", "mariadb"],
                             stdout=subprocess.PIPE)
     debug_print(proc.communicate()[0])
     debug_print("return code is %s" % proc.returncode)
@@ -211,8 +211,8 @@ def determine_eligibility(available_nodes):
 
 def main():
     """The main function."""
-    debug_print("Starting script...")
     logging.basicConfig(filename='/var/log/galerainitlog', level=logging.DEBUG, format='%(asctime)s %(message)s')
+    debug_print("Starting script...")
     setproctitle.setproctitle("galera_init.py")
     local_node, nodes = parse_config()
     time.sleep(5)
