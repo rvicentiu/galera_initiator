@@ -58,10 +58,10 @@ def parse_config():
         error_print("Couldn't find wsrep_cluster_address setting in %s" %
                     (config_file_path))
         exit_script(1)
-    nodes = cluster_address.replace("gcomm://", "").split(",")
+    nodes = cluster_address.replace("gcomm://", "").replace("\"", "").split(",")
     try:
         # Look up the node_address.
-        local_node = config.get("galera", "wsrep_node_address")
+        local_node = config.get("galera", "wsrep_node_address").replace("\"", "")
     # If the file doesn't contain that setting, quit.
     except ConfigParser.NoOptionError:
         error_print("Couldn't find wsrep_node_address setting in %s" %
